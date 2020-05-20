@@ -717,7 +717,7 @@ void SWI_IRQHandler(void)
                                             p_slot->data.received.lqi);
 #else // NRF_802154_USE_RAW_API
                     nrf_802154_received(p_slot->data.received.p_data + RAW_PAYLOAD_OFFSET,
-                                        p_slot->data.received.p_data[RAW_LENGTH_OFFSET],
+                                        p_slot->data.received.p_data[RAW_LENGTH_OFFSET] - FCS_SIZE,
                                         p_slot->data.received.power,
                                         p_slot->data.received.lqi);
 #endif
@@ -737,7 +737,7 @@ void SWI_IRQHandler(void)
                     nrf_802154_transmitted(p_slot->data.transmitted.p_frame + RAW_PAYLOAD_OFFSET,
                                            p_slot->data.transmitted.p_data == NULL ? NULL :
                                            p_slot->data.transmitted.p_data + RAW_PAYLOAD_OFFSET,
-                                           p_slot->data.transmitted.p_data[RAW_LENGTH_OFFSET],
+                                           p_slot->data.transmitted.p_data[RAW_LENGTH_OFFSET] - FCS_SIZE,
                                            p_slot->data.transmitted.power,
                                            p_slot->data.transmitted.lqi);
 #endif

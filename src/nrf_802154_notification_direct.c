@@ -55,7 +55,7 @@ void nrf_802154_notify_received(uint8_t * p_data, int8_t power, uint8_t lqi)
 #if NRF_802154_USE_RAW_API
     nrf_802154_received_raw(p_data, power, lqi);
 #else // NRF_802154_USE_RAW_API
-    nrf_802154_received(p_data + RAW_PAYLOAD_OFFSET, p_data[RAW_LENGTH_OFFSET], power, lqi);
+    nrf_802154_received(p_data + RAW_PAYLOAD_OFFSET, p_data[RAW_LENGTH_OFFSET] - FCS_SIZE, power, lqi);
 #endif  // NRF_802154_USE_RAW_API
 }
 
@@ -74,7 +74,7 @@ void nrf_802154_notify_transmitted(const uint8_t * p_frame,
 #else // NRF_802154_USE_RAW_API
     nrf_802154_transmitted(p_frame + RAW_PAYLOAD_OFFSET,
                            p_ack == NULL ? NULL : p_ack + RAW_PAYLOAD_OFFSET,
-                           p_ack[RAW_LENGTH_OFFSET],
+                           p_ack[RAW_LENGTH_OFFSET] - FCS_SIZE,
                            power,
                            lqi);
 #endif // NRF_802154_USE_RAW_API
